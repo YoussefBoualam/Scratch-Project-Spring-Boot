@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Index</title>
+<link rel="stylesheet" type="text/css"
+	href="../staric/css/bootstrap.min.css"
+	th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<img class="navbar-brand" src="../staric/pictuers/roue.png"
+			th:src="@{/pictuers/roue.png}" width="50" alt="logo"> <a
+			class="navbar-brand" th:href=@{index}>List</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{formAdd}" style="text-size:25px">Ajouter </a>
+				</li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0" th:action="@{index}"
+				method="get">
+				<input class="form-control mr-sm-2" name="voitureNom" type="search"
+					th:value="${voitureNom}" placeholder="Chercher une voiture"
+					aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Chercher</button>
+			</form>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h1 class="text-center mt-1 mb-3">Voitures</h1>
+		<div class="d-flex justify-content-center">
+			<div th:each="v:${voitures}">
+				<div class="card ml-1 text-center"
+					style="width: 300px; border-color: black">
+					<img class="card-img-top" th:src="@{getPhoto(id=${v.id})}"
+						height="200">
+					<div class="card-body">
+						<h4 class="card-title" th:text="${v.marque}"></h4>
+						<label>Id : </label> <label class="card-text" th:text="${v.id}"></label><br>
+						<label>Nom : </label> <label class="card-text" th:text="${v.nom}"></label><br>
+						<label>Prix : </label> <label class="card-text"
+							th:text="${v.prix}"></label><br> <a
+							class="btn btn-warning btn-sm btn-block "
+							th:href="@{edit(id=${v.id})}">Edite</a> 
+							<a class="btn btn-danger btn-sm btn-block"
+							onclick="return confirm('Êtes vous sûr de vouloir supprimer la voiture?');"
+							th:href="@{delete(id=${v.id},page=${pageCourante},voitureNom=${voitureNom})}">Supprimer</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-3">
+			<nav aria-label="Page navigation ">
+				<ul class="pagination justify-content-center">
+					<li th:each="pg:${pages}" th:class="${pg==pageCourante}?active">
+					<a class="page-link" th:text="${pg}"
+					th:href="@{index(page=${pg},voitureNom=${voitureNom})}" >
+					</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+		
+		
+
+	</div>
+	<script src="../staric/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="../staric/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+	<script src="../staric/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+</body>
+</html>
